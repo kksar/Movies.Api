@@ -15,7 +15,7 @@ namespace Movies.Api.Entities
 
         [NotMapped]
         public decimal TotalMovies { get; set; }
-        public List<Movie> GenreMovies { get; set; }
+        public List<Movie> GenreMovies { get; set; } //****
 
     }
 }
