@@ -35,7 +35,7 @@ namespace Movies.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Movies.Api.Entities.Language", b =>
@@ -52,7 +52,7 @@ namespace Movies.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Language");
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Movies.Api.Entities.Movie", b =>
@@ -134,7 +134,7 @@ namespace Movies.Api.Migrations
             modelBuilder.Entity("Movies.Api.Entities.Movie", b =>
                 {
                     b.HasOne("Movies.Api.Entities.Genre", "Genre")
-                        .WithMany("GenreMovies")
+                        .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -163,11 +163,6 @@ namespace Movies.Api.Migrations
                         .HasForeignKey("StaffsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Movies.Api.Entities.Genre", b =>
-                {
-                    b.Navigation("GenreMovies");
                 });
 
             modelBuilder.Entity("Movies.Api.Entities.Language", b =>

@@ -7,6 +7,8 @@ namespace Movies.Api
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Language> Languages { get; set; }
 
 
 

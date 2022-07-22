@@ -21,8 +21,6 @@ namespace Movies.Api.Entities
         public Genre Genre { get; set; }
 
 
-
-
         public virtual ICollection<Staff> Staffs { get; set; }
 
 

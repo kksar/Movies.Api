@@ -11,7 +11,7 @@ using Movies.Api;
 namespace Movies.Api.Migrations
 {
     [DbContext(typeof(AppContext))]
-    [Migration("20220721100823_Initial")]
+    [Migration("20220722100441_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace Movies.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Movies.Api.Entities.Language", b =>
@@ -54,7 +54,7 @@ namespace Movies.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Language");
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Movies.Api.Entities.Movie", b =>
@@ -136,7 +136,7 @@ namespace Movies.Api.Migrations
             modelBuilder.Entity("Movies.Api.Entities.Movie", b =>
                 {
                     b.HasOne("Movies.Api.Entities.Genre", "Genre")
-                        .WithMany("GenreMovies")
+                        .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -165,11 +165,6 @@ namespace Movies.Api.Migrations
                         .HasForeignKey("StaffsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Movies.Api.Entities.Genre", b =>
-                {
-                    b.Navigation("GenreMovies");
                 });
 
             modelBuilder.Entity("Movies.Api.Entities.Language", b =>
