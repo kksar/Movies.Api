@@ -5,17 +5,15 @@ namespace Movies.Api.Entities
 {
     public class Language
     {
-        public Language()
-        {
-            LanguageMovies = new List<Movie>();
-        }
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; } = string.Empty;
         [NotMapped]
-        public decimal TotalMovies { get; set; }
-        public List<Movie> LanguageMovies { get; set; }
+        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
 
     }
 }

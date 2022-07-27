@@ -11,8 +11,8 @@ using Movies.Api;
 namespace Movies.Api.Migrations
 {
     [DbContext(typeof(AppContext))]
-    [Migration("20220722100441_Initial")]
-    partial class Initial
+    [Migration("20220727085428_MyFirstMigration")]
+    partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,8 @@ namespace Movies.Api.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -50,7 +51,8 @@ namespace Movies.Api.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -66,7 +68,8 @@ namespace Movies.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
@@ -82,7 +85,8 @@ namespace Movies.Api.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -103,15 +107,18 @@ namespace Movies.Api.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("lastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -136,13 +143,13 @@ namespace Movies.Api.Migrations
             modelBuilder.Entity("Movies.Api.Entities.Movie", b =>
                 {
                     b.HasOne("Movies.Api.Entities.Genre", "Genre")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Movies.Api.Entities.Language", "Language")
-                        .WithMany("LanguageMovies")
+                        .WithMany("Movies")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -167,9 +174,14 @@ namespace Movies.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Movies.Api.Entities.Genre", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
             modelBuilder.Entity("Movies.Api.Entities.Language", b =>
                 {
-                    b.Navigation("LanguageMovies");
+                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
