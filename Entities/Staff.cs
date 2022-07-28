@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Movies.Api.Entities
 {
@@ -23,7 +24,7 @@ namespace Movies.Api.Entities
         {
             Movies = new HashSet<Movie>();
         }
-
+        [JsonIgnore]
         public virtual ICollection<Movie> Movies { get; set; }
     }
 }

@@ -9,8 +9,8 @@ using Movies.Api;
 
 namespace Movies.Api.Migrations
 {
-    [DbContext(typeof(AppContext))]
-    partial class AppContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MovieContext))]
+    partial class MovieContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -92,6 +92,8 @@ namespace Movies.Api.Migrations
 
                     b.HasIndex("LanguageId");
 
+                    b.HasIndex("OriginalLanguageId");
+
                     b.ToTable("Movies");
                 });
 
@@ -149,12 +151,20 @@ namespace Movies.Api.Migrations
                     b.HasOne("Movies.Api.Entities.Language", "Language")
                         .WithMany("Movies")
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Movies.Api.Entities.Language", "OriginalLanguage")
+                        .WithMany("MoviesOrign")
+                        .HasForeignKey("OriginalLanguageId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Genre");
 
                     b.Navigation("Language");
+
+                    b.Navigation("OriginalLanguage");
                 });
 
             modelBuilder.Entity("MovieStaff", b =>
@@ -180,6 +190,8 @@ namespace Movies.Api.Migrations
             modelBuilder.Entity("Movies.Api.Entities.Language", b =>
                 {
                     b.Navigation("Movies");
+
+                    b.Navigation("MoviesOrign");
                 });
 #pragma warning restore 612, 618
         }

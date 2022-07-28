@@ -1,4 +1,6 @@
-﻿namespace Movies.Api.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Movies.Api.Models
 {
     public class GenreDto
     {
@@ -8,7 +10,7 @@
         {
             get { return Movies.Count; }
         }
-
+        [JsonIgnore]
         public ICollection<MovieDto> Movies { get; set; } = new List<MovieDto>();
     }
 }

@@ -14,11 +14,11 @@ namespace Movies.Api.Entities
         [MaxLength(200)]
         public string? Description { get; set; }
         public int ReleaseYear { get; set; }
-        [ForeignKey("LanguageId")]
+        //[ForeignKey("LanguageId")]
         public int LanguageId { get; set; }
-        [ForeignKey("OriginalLanguageId")]
+        //[ForeignKey("OriginalLanguageId")]
         public int OriginalLanguageId { get; set; }
-        public Language Language { get; set; } = null!;
+
         [ForeignKey("GenreId")]
         public int GenreId { get; set; }
         public Genre Genre { get; set; } = null!;
@@ -29,6 +29,9 @@ namespace Movies.Api.Entities
             Staffs = new HashSet<Staff>();
         }
         public virtual ICollection<Staff> Staffs { get; set; }
+
+        public virtual Language Language { get; set; }
+        public virtual Language OriginalLanguage { get; set; }
 
     }
 }

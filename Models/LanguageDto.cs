@@ -9,7 +9,7 @@
         {
             get { return Movies.Count; }
         }
-
-        public ICollection<MovieDto> Movies { get; set; } = new List<MovieDto>();
+        //[JsonIgnore]
+        public ICollection<MovieWithDetailsDto> Movies { get; set; } = new List<MovieWithDetailsDto>();
     }
 }

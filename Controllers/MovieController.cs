@@ -22,7 +22,7 @@ namespace Movies.Api.Controllers
         }
 
         [HttpGet("movies")]
-        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMoviesAsync([FromQuery] string? name, [FromQuery] string? searchQuery, int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<MovieWithDetailsDto>>> GetMoviesAsync([FromQuery] string? name, [FromQuery] string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             if (pageSize > maxMoviesPageSize)
             {
@@ -34,39 +34,32 @@ namespace Movies.Api.Controllers
                 "X-Pagination",
                 JsonSerializer.Serialize(paginationMetadata));
 
-            return Ok(movies);
+            //return Ok(movies);
 
-            //return Ok(_mapper.Map<IEnumerable<MovieWithDetailsDto>>(movies));
+            return Ok(_mapper.Map<IEnumerable<MovieWithDetailsDto>>(movies));
         }
 
-        //[HttpGet("movieswithdetails")]
-        //public async Task<ActionResult<IEnumerable<Movie>>> GetMoviesWithMetaDataAsync()
-        //{
-        //    using var db = new AppContext();
-        //    var movies = await db.Movies
-        //        .Include(m => m.Genre)
-        //        .Include(m => m.Language)
-        //        .ToListAsync();
+        [HttpGet("moviesSinDetails")]
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMoviesSinDetailsAsync()
+        {
 
-        //    return Ok(movies);
-        //}
+            var movies = await _movieRepository.GetMoviesAsync();
+            return Ok(_mapper.Map<IEnumerable<MovieDto>>(movies));
+            //return Ok(movies);
+        }
 
-        //[HttpGet("{GenreId}/genremovies")]
-        //public async Task<ActionResult<Genre>> GetMoviesOfGenreWithMetaDataAsync(int GenreId)
-        //{
-        //    using var db = new AppContext();
+        [HttpGet("movies/{movieId}")]
+        public async Task<ActionResult<MovieDto>> GetMovieAsync(int movieId)
+        {
+            var movie = await _movieRepository.GetMovieAsync(movieId);
 
-        //    var genre = await db.Genres
-        //        .Include(g => g.GenreMovies)
-        //        .ThenInclude(m => m.Language)
-        //        .FirstAsync(g => g.Id == GenreId);
+            if (movie is null)
+            {
+                return NotFound();
+            }
 
-        //    foreach (Movie item in genre.GenreMovies)
-        //    {
-        //        item.Staffs = db.Movies.Where(m => m.Id == item.Id).SelectMany(m => m.Staffs).ToList();
-        //    }
-        //    return Ok(genre);
-        //}
+            return Ok(_mapper.Map<MovieWithDetailsDto>(movie));
+        }
 
         //[HttpGet("{StaffId}/staffmovies")]
         //public async Task<ActionResult<Staff>> GetMoviesOfStaffWithMetaDataAsync(int StaffId)

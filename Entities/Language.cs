@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Movies.Api.Entities
 {
@@ -12,8 +13,12 @@ namespace Movies.Api.Entities
         [Required]
         [MaxLength(50)]
         public string Name { get; set; } = string.Empty;
-        [NotMapped]
-        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
+        //[JsonIgnore]
+        //public ICollection<Movie> Movies { get; set; } = new List<Movie>();
+        [JsonIgnore]
+        public virtual ICollection<Movie> Movies { get; set; } = new List<Movie>();
+        [JsonIgnore]
+        public virtual ICollection<Movie> MoviesOrign { get; set; } = new List<Movie>();
 
     }
 }

@@ -9,7 +9,8 @@ namespace Movies.Api.Models
         public string? Description { get; set; }
         public int ReleaseYear { get; set; }
         public Language Language { get; set; } = null!;
+        public Language OriginalLanguage { get; set; } = null!;
         public Genre Genre { get; set; } = null!;
-        public Staff Staff { get; set; } = null!;
+        public List<Staff> Staffs { get; set; } = null!;
     }
 }

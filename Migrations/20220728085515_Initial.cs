@@ -4,7 +4,7 @@
 
 namespace Movies.Api.Migrations
 {
-    public partial class MyFirstMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,8 +75,12 @@ namespace Movies.Api.Migrations
                         name: "FK_Movies_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Movies_Languages_OriginalLanguageId",
+                        column: x => x.OriginalLanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -112,6 +116,11 @@ namespace Movies.Api.Migrations
                 name: "IX_Movies_LanguageId",
                 table: "Movies",
                 column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_OriginalLanguageId",
+                table: "Movies",
+                column: "OriginalLanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MovieStaff_StaffsId",
