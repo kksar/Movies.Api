@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Movies.Api;
 using Movies.Api.Services;
 using Serilog;
+using System.Text;
 using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
@@ -35,6 +37,25 @@ builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Authentication:Issuer"],
+            ValidAudience = builder.Configuration["Authentication:Audience"],
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"])),
+
+        };
+    });
+
 var app = builder.Build();
 
 
@@ -47,12 +68,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
 
+app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
 
-//app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.Run();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Models;
 using Movies.Api.Services;
@@ -8,6 +9,7 @@ namespace Movies.Api.Controllers
 {
     [Route("api")]
     [ApiController]
+    [Authorize]
     public class MovieController : ControllerBase
     {
 
